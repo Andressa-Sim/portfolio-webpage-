@@ -1,111 +1,81 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const typedTextElement = document.querySelector('.typed-text');
+  const menuButton = document.querySelector('.menu-button');
+  const navigation = document.querySelector('.main-nav');
   const scrollTop = document.querySelector('.scroll-top');
-  const typedItems = ['Desenvolvedora Web', 'Analista de Dados', 'Estudante de Sistemas de Informação'];
-  let currentIndex = 0;
-  let currentChar = 0;
-  let isDeleting = false;
-  let typeDelay = 120;
-
-  function type() {
-    const currentText = typedItems[currentIndex];
-    if (isDeleting) {
-      currentChar -= 1;
-    } else {
-      currentChar += 1;
-    }
-
-    typedTextElement.textContent = currentText.substring(0, currentChar);
-
-    if (!isDeleting && currentChar === currentText.length) {
-      isDeleting = true;
-      typeDelay = 1200;
-    } else if (isDeleting && currentChar === 0) {
-      isDeleting = false;
-      currentIndex = (currentIndex + 1) % typedItems.length;
-      typeDelay = 200;
-    } else {
-      typeDelay = isDeleting ? 60 : 120;
-    }
-
-    setTimeout(type, typeDelay);
-  }
-
-  if (typedTextElement) {
-    type();
-  }
-
   const modal = document.getElementById('project-modal');
-  const closeModalButton = modal.querySelector('.modal-close');
-  const modalTitle = modal.querySelector('#project-modal-title');
-  const modalDescription = modal.querySelector('.modal-description');
-  const modalList = modal.querySelector('.modal-list');
-  const modalGithub = modal.querySelector('.modal-github');
+  let lastFocusedElement = null;
 
-  function toggleModal(open) {
-    modal.classList.toggle('active', open);
-    modal.setAttribute('aria-hidden', String(!open));
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) {
-      closeModalButton.focus();
-    }
+  function closeMenu() {
+    if (!menuButton || !navigation) return;
+    navigation.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
   }
 
-  function populateModal(projectCard) {
-    const title = projectCard.dataset.title || 'Projeto';
-    const description = projectCard.dataset.description || '';
-    const features = projectCard.dataset.features ? projectCard.dataset.features.split(';') : [];
-    const github = projectCard.dataset.github || '#';
-
-    modalTitle.textContent = title;
-    modalDescription.textContent = description;
-    modalList.innerHTML = '';
-
-    features.forEach((item) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = item.trim();
-      modalList.appendChild(listItem);
+  if (menuButton && navigation) {
+    menuButton.addEventListener('click', () => {
+      const isOpen = navigation.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+      document.body.classList.toggle('menu-open', isOpen);
     });
 
-    modalGithub.href = github;
-    modalGithub.textContent = `Ver no GitHub de ${title}`;
+    navigation.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
   }
 
-  document.querySelectorAll('.project-detail-button').forEach((button) => {
-    button.addEventListener('click', () => {
-      const projectCard = button.closest('.project-item');
-      if (!projectCard) return;
-      populateModal(projectCard);
-      toggleModal(true);
+  if (modal) {
+    const closeButton = modal.querySelector('.modal-close');
+    const title = modal.querySelector('#project-modal-title');
+    const description = modal.querySelector('.modal-description');
+    const list = modal.querySelector('.modal-list');
+    const githubLink = modal.querySelector('.modal-github');
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastFocusedElement) lastFocusedElement.focus();
+    }
+
+    document.querySelectorAll('.project-detail-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.project-card');
+        if (!card) return;
+
+        lastFocusedElement = button;
+        title.textContent = card.dataset.title || 'Projeto';
+        description.textContent = card.dataset.description || '';
+        githubLink.href = card.dataset.github || '#';
+        list.replaceChildren();
+
+        (card.dataset.features || '').split(';').filter(Boolean).forEach((feature) => {
+          const item = document.createElement('li');
+          item.textContent = feature;
+          list.appendChild(item);
+        });
+
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        closeButton.focus();
+      });
     });
-  });
 
-  closeModalButton.addEventListener('click', () => toggleModal(false));
-
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      toggleModal(false);
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal.classList.contains('active')) {
-      toggleModal(false);
-    }
-  });
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      scrollTop.classList.add('visible');
-    } else {
-      scrollTop.classList.remove('visible');
-    }
-  });
+    closeButton.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+  }
 
   if (scrollTop) {
-    scrollTop.addEventListener('click', (event) => {
-      event.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    function updateScrollButton() {
+      scrollTop.classList.toggle('visible', window.scrollY > 500);
+    }
+    window.addEventListener('scroll', updateScrollButton, { passive: true });
+    updateScrollButton();
   }
 });
