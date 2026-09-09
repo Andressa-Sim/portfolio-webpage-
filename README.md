@@ -35,7 +35,7 @@ Este projeto é uma página estática que exibe informações sobre a desenvolve
 - `style.css` - estilos da página
 - `script.js` - scripts para animação de texto, modal de projetos e botão de voltar ao top
 - `imagem/` - pasta com imagens usadas no site
-- `anime_Image.png` - ilustração usada na seção principal
+- `imagem/anime_Image.png` - ilustração usada na seção principal
 
 ## Como usar
 
@@ -59,7 +59,7 @@ Em seguida, acesse `http://localhost:8000`.
 
 ## Contato
 
-- E-mail: `andressa_alvessimao@hotmail.com`
+- E-mail: `andressaasimao@gmail.com`
 - Localização: Uberlândia, MG
 
 ## Observações

@@ -2,9 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; media-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Portfólio de Andressa Alves Simão, desenvolvedora web e estudante de Sistemas de Informação.">
-  <title>Andressa Alves Simão | Desenvolvedora Web</title>
+  <title>Andressa Alves Simão | Desenvolvedora Junior </title>
+  <link rel="icon" href="imagem/my-profile-img.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +18,7 @@
     <div class="header-inner">
       <a class="brand" href="#top" aria-label="Ir para o início">
         <img src="imagem/my-profile-img.jpg" alt="Foto de Andressa Alves Simão">
-        <span>Andressa Simão</span>
+        <span>Andressa Alves</span>
       </a>
 
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-nav">
@@ -31,6 +34,10 @@
         <a href="#habilidades">Habilidades</a>
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
+        <button class="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+          <span class="theme-label">Modo escuro</span>
+        </button>
       </nav>
     </div>
   </header>
@@ -38,16 +45,21 @@
   <main>
     <section class="hero section" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">Desenvolvedora web</p>
-        <h1 id="hero-title">Olá, sou Andressa Alves Simão.</h1>
-        <p class="hero-text">Estudante de Sistemas de Informação, desenvolvo interfaces responsivas com HTML, CSS, JavaScript e React.</p>
+        <h1 id="hero-title">Olá, sou Andressa Alves</h1>
+        <p class="eyebrow">Desenvolvedora | JavaScript | TypeScript | React Native | Node.js</p>
+        <p class="hero-text">Unindo tecnologia, estética e desenvolvimento de ponta para criar experiências digitais excepcionais e memoráveis.</p>
         <div class="hero-actions">
           <a class="button" href="#projetos">Ver projetos</a>
+          <a
+            class="button button-secondary"
+            href="documento/Curriculo_Andressa_Desenvolvedora_Junior(1).pdf"
+            download="Curriculo-Andressa-Alves.pdf"
+          >Baixar currículo</a>
           <a class="button button-secondary" href="#contato">Entrar em contato</a>
         </div>
       </div>
       <figure class="hero-image-card">
-        <img src="anime_Image.png" alt="Ilustração de uma desenvolvedora trabalhando no computador">
+        <img src="imagem/anime_Image.png" alt="Ilustração de uma desenvolvedora trabalhando no computador">
       </figure>
     </section>
 
@@ -123,14 +135,14 @@
       <div>
         <p class="eyebrow">Minha trajetória</p>
         <h2 id="about-title">Sobre mim</h2>
-        <p>Curso Sistemas de Informação na Descomplica Digital, com conclusão prevista para julho de 2026. Busco uma oportunidade para aplicar meus conhecimentos e continuar evoluindo como desenvolvedora.</p>
+        <p>Curso Sistemas de Informação na Descomplica Digital, com conclusão prevista para Dezembro de 2026. Busco uma oportunidade para aplicar meus conhecimentos e continuar evoluindo como desenvolvedora.</p>
         <p>Minha experiência profissional com atendimento e organização de documentos fortaleceu minha comunicação, responsabilidade, atenção aos detalhes e capacidade de trabalhar em equipe.</p>
       </div>
       <aside class="experience-card" aria-label="Formação e experiência">
         <h3>Formação</h3>
-        <p><strong>Sistemas de Informação</strong><br>Descomplica Digital · 2022–2026</p>
+        <p><strong>Sistemas de Informação</strong><br>Uniamerica Descomplica Digital · 2022–2026</p>
         <h3>Experiência</h3>
-        <p><strong>Recepcionista hospitalar e auxiliar de arquivo</strong><br>Village · 2023–Atual</p>
+        <p><strong>Recepcionista hospitalar e auxiliar de arquivo</strong><br>Village · 2023-2025</p>
       </aside>
     </section>
 
@@ -138,13 +150,44 @@
       <div>
         <p class="eyebrow">Vamos conversar</p>
         <h2 id="contact-title">Contato</h2>
-        <p>Estou disponível para oportunidades, projetos e novas conexões profissionais.</p>
+        <p>Se você deseja discutir um projeto, oportunidade de trabalho ou apenas dizer olá, sinta-se à vontade para entrar em contato comigo.</p>
       </div>
+
       <div class="contact-links">
-        <a href="mailto:andressa_alvessimao@hotmail.com"><span>E-mail</span><strong>andressa_alvessimao@hotmail.com</strong></a>
-        <a href="tel:+5534997716268"><span>Telefone</span><strong>(34) 99771-6268</strong></a>
-        <a href="https://github.com/andressa-simao" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong>@andressa-simao</strong></a>
+        <a href="mailto:andressaasimao@gmail.com"><span>E-mail</span><strong>andressaasimao@gmail.com</strong></a>
+        <a
+          href="https://wa.me/5534997716268?text=Ol%C3%A1%2C%20Andressa%21%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar."
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Conversar com Andressa pelo WhatsApp"
+        ><span>Telefone</span><strong>(34) 99771-6268 · WhatsApp</strong></a>
+        <a href="https://github.com/Andressa-Sim" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong>@Andressa-Sim</strong></a>
+        <a href="https://www.linkedin.com/in/andressa-alves-simao/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><strong>@andressa-alves-simao</strong></a>
       </div>
+
+      <form class="contact-form" id="contact-form" action="#contato" method="post" accept-charset="UTF-8">
+        <h3>Envie uma mensagem</h3>
+        <div class="form-grid">
+          <label>
+            Nome
+            <input type="text" name="name" autocomplete="name" maxlength="80" required>
+          </label>
+          <label>
+            Seu e-mail
+            <input type="email" name="email" autocomplete="email" maxlength="254" required>
+          </label>
+        </div>
+        <label>
+          Assunto
+          <input type="text" name="subject" maxlength="120" required>
+        </label>
+        <label>
+          Mensagem
+          <textarea name="message" rows="7" maxlength="2000" required></textarea>
+        </label>
+        <p class="form-help">Ao enviar, seu aplicativo de e-mail será aberto com a mensagem pronta.</p>
+        <button class="button" type="submit">Enviar mensagem</button>
+      </form>
     </section>
   </main>
 

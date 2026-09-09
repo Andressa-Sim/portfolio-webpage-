@@ -1,9 +1,68 @@
+(() => {
+  try {
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const validSavedTheme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : null;
+    const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = validSavedTheme || preferredTheme;
+  } catch {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   const menuButton = document.querySelector('.menu-button');
   const navigation = document.querySelector('.main-nav');
   const scrollTop = document.querySelector('.scroll-top');
   const modal = document.getElementById('project-modal');
+  const themeToggle = document.querySelector('.theme-toggle');
+  const contactForm = document.getElementById('contact-form');
   let lastFocusedElement = null;
+
+  function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.documentElement.dataset.theme = theme;
+
+    if (themeToggle) {
+      const icon = themeToggle.querySelector('.theme-icon');
+      const label = themeToggle.querySelector('.theme-label');
+      themeToggle.setAttribute('aria-pressed', String(isDark));
+      themeToggle.setAttribute('aria-label', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+      if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+      if (label) label.textContent = isDark ? 'Modo claro' : 'Modo escuro';
+    }
+  }
+
+  const currentTheme = document.documentElement.dataset.theme || 'light';
+  applyTheme(currentTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+
+      try {
+        localStorage.setItem('portfolio-theme', nextTheme);
+      } catch {
+        // O tema continua funcionando mesmo se o armazenamento estiver indisponível.
+      }
+    });
+  }
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const name = String(formData.get('name') || '').trim();
+      const email = String(formData.get('email') || '').trim();
+      const subject = String(formData.get('subject') || '').trim();
+      const message = String(formData.get('message') || '').trim();
+      const emailSubject = encodeURIComponent(`${subject} — contato de ${name}`);
+      const emailBody = encodeURIComponent(`Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}`);
+
+      window.location.href = `mailto:andressaasimao@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+    });
+  }
 
   function closeMenu() {
     if (!menuButton || !navigation) return;
@@ -46,7 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         lastFocusedElement = button;
         title.textContent = card.dataset.title || 'Projeto';
         description.textContent = card.dataset.description || '';
-        githubLink.href = card.dataset.github || '#';
+        try {
+          const githubUrl = new URL(card.dataset.github || '');
+          const isSafeGithubUrl = githubUrl.protocol === 'https:' && githubUrl.hostname === 'github.com';
+          githubLink.hidden = !isSafeGithubUrl;
+          if (isSafeGithubUrl) githubLink.href = githubUrl.href;
+        } catch {
+          githubLink.hidden = true;
+        }
         list.replaceChildren();
 
         (card.dataset.features || '').split(';').filter(Boolean).forEach((feature) => {
